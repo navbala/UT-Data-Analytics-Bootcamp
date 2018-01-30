@@ -92,7 +92,6 @@ Sub Stock_Stats()
                 ' Add to the Brand Total
                 Stock_Volume_Total = Stock_Volume_Total + ws.Cells(i, 7).Value
                 
-                
                 ' Set Open Price only if previous opening price values were 0
                 If ws.Cells(i - 1, 3).Value = 0 And ws.Cells(i, 3).Value <> 0 Then
                     Open_Price = ws.Cells(i, 3).Value
