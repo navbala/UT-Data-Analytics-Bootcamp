@@ -2,7 +2,7 @@ Sub Stock_Stats()
     ' Set variable for Worksheet
     Dim ws As Worksheet
   
-    ' Loop the all Worksheets
+    ' Loop through all Worksheets
     For Each ws In Worksheets
   
         ' Set an initial variable for holding the stock ticker
