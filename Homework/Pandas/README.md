@@ -21,6 +21,8 @@ purchase_data_df = pd.read_json(purchase_data)
 
 ```
 
+## Player Count
+
 
 ```python
 # Player Count
@@ -66,6 +68,8 @@ total_players_df
 </div>
 
 
+
+## Purchasing Analysis (Total)
 
 
 ```python
@@ -142,6 +146,8 @@ purchasing_analysis
 </div>
 
 
+
+## Gender Demographics
 
 
 ```python
@@ -224,6 +230,8 @@ gender_demographics
 </div>
 
 
+
+## Purchasing Analysis (Gender)
 
 
 ```python
@@ -336,6 +344,8 @@ pur_analysis_gen
 </div>
 
 
+
+## Age Demographics
 
 
 ```python
@@ -520,6 +530,8 @@ age_demographics
 
 
 
+## Top Spenders
+
 
 ```python
 ## Top Spenders
@@ -620,6 +632,8 @@ user_data.sort_values("Total Purchase Value", ascending=False).head(5)
 </div>
 
 
+
+## Most Popular Items
 
 
 ```python
@@ -736,6 +750,8 @@ item_data_df.sort_values("Purchase Count", ascending=False).head(5)
 </div>
 
 
+
+## Most Profitable Items
 
 
 ```python
