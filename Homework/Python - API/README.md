@@ -2,8 +2,8 @@
 # WeatherPy
 ## Analysis
  - The closer a city is to the equator, the higher the temperature (F) of that city. This is noted in the "City Latitude vs. Temperature (3/1/2018)" graph, below, where the highest data points for temperature are above the "0" latitude (note that the equator is at latitude "0").
- - The Northern Hemisphere typically has higher wind speeds (mph). This is indicated in the "City Latitude vs. Wind Speed (3/1/2018)" graph where the data points for wind speed in the Nothern Hemisphere (latitudes 0 to 90) are higher than the those in the Southern Hemisphere (latutide -90 to 0).
- - The Southern Hemisphere typically has higher humidity %). This is indicated in the "City Latitude vs. Humidity (3/1/2018)" graph where there is greater number of data points with higher humidty in the Souther Hemisphere (latitudes -90 to 0) than those in the Northern Hemisphere (latutide 0 to 90).
+ - The Northern Hemisphere typically has higher wind speeds (mph). This is indicated in the "City Latitude vs. Wind Speed (3/1/2018)" graph where the data points for wind speed for cities in the Nothern Hemisphere (latitudes 0 to 90) are higher than for cities in the Southern Hemisphere (latitude -90 to 0).
+ - The Southern Hemisphere typically has higher humidity %). This is indicated in the "City Latitude vs. Humidity (3/1/2018)" graph where there is greater number of data points with higher humidty for cities in the Souther Hemisphere (latitudes -90 to 0) than for cities in the Northern Hemisphere (latitude 0 to 90).
   
 
 
