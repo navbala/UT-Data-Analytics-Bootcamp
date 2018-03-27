@@ -194,6 +194,144 @@ ORDER BY
 #7
 #7a
 
+#select * from film;
+#select * from language;
+
+SELECT title
+FROM film
+WHERE 
+	(
+	title like 'K%' OR 
+    title like 'Q%'
+    )
+    
+    AND
+    
+    language_id IN (
+		SELECT language_id
+		FROM language
+		WHERE name = 'English' 
+		)
+;
+
+#7b
+SELECT
+	concat(first_name, " ", last_name) as "Actor Name"
+FROM actor
+WHERE actor_id IN (
+	SELECT actor_id
+    FROM film_actor
+    WHERE film_id IN (
+		SELECT film_id
+        FROM film
+        WHERE title = 'Alone Trip'
+        )
+	)
+;
+
+#7c
+SELECT
+	customer.first_name,
+    customer.last_name
+FROM customer
+JOIN address ON customer.address_id = address.address_id
+JOIN city ON address.city_id = city.city_id
+JOIN country ON city.country_id = country.country_id
+WHERE country.country = 'Canada'
+;
+
+#7d
+/*select * from category;
+select * from film;*/
+
+SELECT film.title
+FROM film
+JOIN film_category ON film.film_id = film_category.film_id
+JOIN category ON film_category.category_id = category.category_id
+WHERE category.name = 'Family'
+;
+
+#7e
+#select * from film;
+#select * from rental;
+
+SELECT title
+FROM film
+JOIN inventory ON film.film_id = inventory.film_id
+JOIN rental ON inventory.inventory_id = rental.inventory_id
+GROUP BY title
+ORDER BY COUNT(title) desc
+;
+
+#7f
+SELECT
+	store.store_id,
+    SUM(payment.amount) as 'Total Business (USD)'
+FROM store
+JOIN inventory ON store.store_id = inventory.store_id
+JOIN rental ON rental.inventory_id = inventory.inventory_id
+JOIN film ON film.film_id = inventory.film_id
+JOIN payment ON payment.rental_id = rental.rental_id
+GROUP BY store_id
+;
+
+#7g
+SELECT
+	store.store_id,
+    city.city,
+    country.country
+FROM store
+JOIN address ON store.address_id = address.address_id
+JOIN city ON address.city_id = city.city_id
+JOIN country ON city.country_id = country.country_id
+;
+
+#7h
+SELECT
+	category.name as 'Genre',
+    SUM(payment.amount) as 'Gross Revenue'
+FROM category
+JOIN film_category ON category.category_id = film_category.category_id
+JOIN inventory ON film_category.film_id = inventory.film_id
+JOIN rental ON inventory.inventory_id = rental.inventory_id
+JOIN payment ON rental.rental_id = payment.rental_id
+GROUP by category.name
+ORDER BY SUM(payment.amount) DESC LIMIT 5
+;
+
+#8
+#8a
+CREATE VIEW top_five_genres AS
+
+SELECT
+	category.name as 'Genre',
+    SUM(payment.amount) as 'Gross Revenue'
+FROM category
+JOIN film_category ON category.category_id = film_category.category_id
+JOIN inventory ON film_category.film_id = inventory.film_id
+JOIN rental ON inventory.inventory_id = rental.inventory_id
+JOIN payment ON rental.rental_id = payment.rental_id
+GROUP by category.name
+ORDER BY SUM(payment.amount) DESC LIMIT 5
+;
+
+#8b
+SELECT * from top_five_genres;
+
+#8c
+DROP VIEW top_five_genres;
+
+
+
+
+
+
+
+
+	
+
+
+
  
 
 
