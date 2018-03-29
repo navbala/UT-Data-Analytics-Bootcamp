@@ -1,20 +1,17 @@
 USE sakila;
 
-#1
-#select * from actor;
-
-#1a
+#1a - Display the first and last names of all actors from the table actor.
 SELECT
 	first_name as `First Name`,
     last_name as `Last Name`
 FROM actor;
 
-#1b
+#1b - Display the first and last name of each actor in a single column in upper case letters. Name the column Actor Name.
 SELECT concat(`first_name`, " ", `last_name`) as `Full Name`
 FROM actor;
 
-#2
-#2a
+
+#2a - You need to find the ID number, first name, and last name of an actor, of whom you know only the first name, "Joe." What is one query would you use to obtain this information?
 SELECT
 	actor_id,
     first_name,
@@ -25,7 +22,7 @@ WHERE
 	first_name = "Joe"
 ;
     
-#2b
+#2b - Find all actors whose last name contain the letters GEN:
 SELECT
 	first_name,
     last_name
@@ -34,7 +31,7 @@ WHERE
 	last_name LIKE '%GEN%'
 ;
 
-#2c
+#2c - Find all actors whose last names contain the letters LI. This time, order the rows by last name and first name, in that order:
 SELECT
     last_name,
     first_name
@@ -46,7 +43,7 @@ ORDER BY
     first_name
 ;
 
-#2d
+#2d - Using IN, display the country_id and country columns of the following countries: Afghanistan, Bangladesh, and China:
 SELECT
 	country_id,
     country
@@ -56,30 +53,19 @@ WHERE
 	country IN ('Afghanistan', 'Bangladesh', 'China')
 ;
 
-#3
-#3a
-#SELECT DATA_TYPE 
-#FROM INFORMATION_SCHEMA.COLUMNS
-#WHERE 
-#     TABLE_NAME = 'actor' AND 
-#     COLUMN_NAME = 'first_name'
-#;
- 
+
+#3a - Add a middle_name column to the table actor. Position it between first_name and last_name. Hint: you will need to specify the data type.
 ALTER TABLE actor
 ADD COLUMN middle_name varchar(20) AFTER first_name;
 
-#select * from actor;
-
-#3b
+#3b - You realize that some of these actors have tremendously long last names. Change the data type of the middle_name column to blobs.
 ALTER TABLE actor MODIFY middle_name blob;
 
-#3c
+#3c - Now delete the middle_name column.
 ALTER TABLE actor DROP COLUMN middle_name;
 
-#select * from actor;
 
-#4
-#4a
+#4a - List the last names of actors, as well as how many actors have that last name.
 SELECT
 	last_name,
     count(*) as `Frequency`
@@ -89,7 +75,7 @@ GROUP BY
 	last_name
 ;
 
-#4b
+#4b - List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors
 SELECT
 	last_name,
     count(*) as `Frequency`
@@ -101,9 +87,7 @@ HAVING
 	Frequency >= 2
 ;
 
-#4c
-#select * from actor where first_name = "groucho";
-
+#4c - Oh, no! The actor HARPO WILLIAMS was accidentally entered in the actor table as GROUCHO WILLIAMS, the name of Harpo's second cousin's husband's yoga teacher. Write a query to fix the record.
 UPDATE
 	actor
 SET
@@ -113,7 +97,7 @@ WHERE
     last_name = "Williams"
 ;
 
-#4d
+#4d - Perhaps we were too hasty in changing GROUCHO to HARPO. It turns out that GROUCHO was the correct name after all! In a single query, if the first name of the actor is currently HARPO, change it to GROUCHO. Otherwise, change the first name to MUCHO GROUCHO, as that is exactly what the actor will be with the grievous error. BE CAREFUL NOT TO CHANGE THE FIRST NAME OF EVERY ACTOR TO MUCHO GROUCHO, HOWEVER! (Hint: update the record using a unique identifier.)
 UPDATE
 	actor
 SET
@@ -122,12 +106,12 @@ WHERE
 	actor_id = 172
 ;
 
-#5
-#5a
+
+#5a - You cannot locate the schema of the address table. Which query would you use to re-create it?
 SHOW CREATE TABLE address;
 
-#6
-#6a
+
+#6a - Use JOIN to display the first and last names, as well as the address, of each staff member. Use the tables staff and address:
 SELECT
 	staff.first_name,
     staff.last_name,
@@ -138,7 +122,7 @@ ON
 	staff.address_id = address.address_id
 ;
 
-#6b
+#6b - Use JOIN to display the total amount rung up by each staff member in August of 2005. Use tables staff and payment.
 SELECT
 	staff.first_name,
     staff.last_name,
@@ -151,7 +135,7 @@ GROUP BY
 	staff.staff_id
 ;
 
-#6c
+#6c - List each film and the number of actors who are listed for that film. Use tables film_actor and film. Use inner join.
 SELECT
 	film.title,
     COUNT(film_actor.actor_id)
@@ -163,7 +147,7 @@ GROUP BY
 	film_actor.film_id
 ;
 
-#6d
+#6d - How many copies of the film Hunchback Impossible exist in the inventory system?
 SELECT
 	COUNT(film_id) as `film count`
 FROM
@@ -178,7 +162,7 @@ WHERE film_id in (
 	)
 ;
 
-#6e
+#6e - Using the tables payment and customer and the JOIN command, list the total paid by each customer. List the customers alphabetically by last name:
 SELECT
 	concat(customer.first_name, " ", customer.last_name) as `Customer Name`,
     sum(payment.amount) as `Total Amount Paid`
@@ -191,12 +175,8 @@ ORDER BY
 	customer.last_name asc
 ;
 
-#7
-#7a
 
-#select * from film;
-#select * from language;
-
+#7a - The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended consequence, films starting with the letters K and Q have also soared in popularity. Use subqueries to display the titles of movies starting with the letters K and Q whose language is English.
 SELECT title
 FROM film
 WHERE 
@@ -214,9 +194,9 @@ WHERE
 		)
 ;
 
-#7b
+#7b - Use subqueries to display all actors who appear in the film Alone Trip.
 SELECT
-	concat(first_name, " ", last_name) as "Actor Name"
+	concat(first_name, " ", last_name) as 'Actor Name'
 FROM actor
 WHERE actor_id IN (
 	SELECT actor_id
@@ -229,7 +209,7 @@ WHERE actor_id IN (
 	)
 ;
 
-#7c
+#7c - You want to run an email marketing campaign in Canada, for which you will need the names and email addresses of all Canadian customers. Use joins to retrieve this information.
 SELECT
 	customer.first_name,
     customer.last_name
@@ -240,10 +220,7 @@ JOIN country ON city.country_id = country.country_id
 WHERE country.country = 'Canada'
 ;
 
-#7d
-/*select * from category;
-select * from film;*/
-
+#7d - Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as famiy films.
 SELECT film.title
 FROM film
 JOIN film_category ON film.film_id = film_category.film_id
@@ -251,10 +228,7 @@ JOIN category ON film_category.category_id = category.category_id
 WHERE category.name = 'Family'
 ;
 
-#7e
-#select * from film;
-#select * from rental;
-
+#7e - Display the most frequently rented movies in descending order.
 SELECT title
 FROM film
 JOIN inventory ON film.film_id = inventory.film_id
@@ -263,7 +237,7 @@ GROUP BY title
 ORDER BY COUNT(title) desc
 ;
 
-#7f
+#7f - Write a query to display how much business, in dollars, each store brought in.
 SELECT
 	store.store_id,
     SUM(payment.amount) as 'Total Business (USD)'
@@ -275,7 +249,7 @@ JOIN payment ON payment.rental_id = rental.rental_id
 GROUP BY store_id
 ;
 
-#7g
+#7g - Write a query to display for each store its store ID, city, and country.
 SELECT
 	store.store_id,
     city.city,
@@ -286,7 +260,7 @@ JOIN city ON address.city_id = city.city_id
 JOIN country ON city.country_id = country.country_id
 ;
 
-#7h
+#7h - List the top five genres in gross revenue in descending order. (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 SELECT
 	category.name as 'Genre',
     SUM(payment.amount) as 'Gross Revenue'
@@ -299,8 +273,8 @@ GROUP by category.name
 ORDER BY SUM(payment.amount) DESC LIMIT 5
 ;
 
-#8
-#8a
+
+#8a - In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
 CREATE VIEW top_five_genres AS
 
 SELECT
@@ -315,10 +289,10 @@ GROUP by category.name
 ORDER BY SUM(payment.amount) DESC LIMIT 5
 ;
 
-#8b
+#8b - How would you display the view that you created in 8a?
 SELECT * from top_five_genres;
 
-#8c
+#8c - You find that you no longer need the view top_five_genres. Write a query to delete it.
 DROP VIEW top_five_genres;
 
 
