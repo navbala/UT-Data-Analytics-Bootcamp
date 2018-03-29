@@ -10,8 +10,8 @@ USE sakila;
 
 ```sql
 SELECT
-	first_name as `First Name`,
-  	last_name as `Last Name`
+   first_name as `First Name`,
+   last_name as `Last Name`
 FROM actor;
 ```
 
@@ -26,13 +26,13 @@ FROM actor;
 
 ```sql
 SELECT
-	actor_id,
-  first_name,
-  last_name
+   actor_id,
+   first_name,
+   last_name
 FROM
-	actor
+   actor
 WHERE
-	first_name = "Joe"
+   first_name = "Joe"
 ;
 ```
 
@@ -40,11 +40,11 @@ WHERE
 
 ```sql
 SELECT
-	first_name,
-  last_name
+   first_name,
+   last_name
 FROM actor
 WHERE
-	last_name LIKE '%GEN%'
+   last_name LIKE '%GEN%'
 ;
 ```
 
@@ -52,14 +52,14 @@ WHERE
 
 ```sql
 SELECT
-    last_name,
-    first_name
+   last_name,
+   first_name
 FROM actor
 WHERE
-	last_name LIKE '%LI%'
+   last_name LIKE '%LI%'
 ORDER BY
-	last_name,
-    first_name
+   last_name,
+   first_name
 ;
 ```
 
@@ -67,12 +67,12 @@ ORDER BY
 
  ```sql
 SELECT
-	country_id,
-  country
+   country_id,
+   country
 FROM
-	country
+   country
 WHERE
-	country IN ('Afghanistan', 'Bangladesh', 'China')
+   country IN ('Afghanistan', 'Bangladesh', 'China')
 ;
 ```
 
@@ -101,12 +101,12 @@ ALTER TABLE actor DROP COLUMN middle_name;
 
 ```sql
 SELECT
-	last_name,
-    count(*) as `Frequency`
+   last_name,
+   count(*) as `Frequency`
 FROM
-	actor
+   actor
 GROUP BY
-	last_name
+   last_name
 ;
 ```
 
@@ -114,14 +114,14 @@ GROUP BY
 
 ```sql
 SELECT
-	last_name,
-  count(*) as `Frequency`
+   last_name,
+   count(*) as `Frequency`
 FROM
-	actor
+   actor
 GROUP BY
-	last_name
+   last_name
 HAVING
-	Frequency >= 2
+   Frequency >= 2
 ;
 ```
 
@@ -129,12 +129,12 @@ HAVING
 
 ```sql
 UPDATE
-	actor
+   actor
 SET
-	first_name = "HARPO"
+   first_name = "HARPO"
 WHERE
-	first_name = "Harpo" and
-  last_name = "Williams"
+   first_name = "Harpo" and
+   last_name = "Williams"
 ;
  ```
 
@@ -142,11 +142,11 @@ WHERE
 
 ```sql
 UPDATE
-	actor
+   actor
 SET
-	first_name = "GROUCHO"
+   first_name = "GROUCHO"
 WHERE
-	actor_id = 172
+   actor_id = 172
 ;
 ```
 
@@ -162,13 +162,13 @@ SHOW CREATE TABLE address;
 
 ```sql
 SELECT
-	staff.first_name,
-  staff.last_name,
-  address.address
+   staff.first_name,
+   staff.last_name,
+   address.address
 FROM staff
 JOIN address
 ON
-	staff.address_id = address.address_id
+   staff.address_id = address.address_id
 ;
 ```
 
@@ -176,15 +176,15 @@ ON
 
 ```sql
 SELECT
-	staff.first_name,
-  staff.last_name,
-  SUM(payment.amount) as `total amount`
+   staff.first_name,
+   staff.last_name,
+   SUM(payment.amount) as `total amount`
 FROM staff
 JOIN payment
 ON
-	staff.staff_id = payment.staff_id
+   staff.staff_id = payment.staff_id
 GROUP BY
-	staff.staff_id
+   staff.staff_id
 ;
 ```
 
@@ -192,14 +192,14 @@ GROUP BY
 
 ```sql
 SELECT
-	film.title,
-  COUNT(film_actor.actor_id)
+   film.title,
+   COUNT(film_actor.actor_id)
 FROM film_actor
 INNER JOIN film
 ON
-	film_actor.film_id = film.film_id
+   film_actor.film_id = film.film_id
 GROUP BY
-	film_actor.film_id
+   film_actor.film_id
 ;
 ```
 
@@ -207,16 +207,16 @@ GROUP BY
 
 ```sql
 SELECT
-	COUNT(film_id) as `film count`
+   COUNT(film_id) as `film count`
 FROM
-	inventory
+   inventory
 WHERE film_id in (
 	SELECT
-		film_id
+	   film_id
 	FROM
-		film
+	   film
 	WHERE
-		title = "Hunchback Impossible"
+	   title = "Hunchback Impossible"
 	)
 ;
 ```
@@ -225,15 +225,15 @@ WHERE film_id in (
 
 ```sql
 SELECT
-	concat(customer.first_name, " ", customer.last_name) as `Customer Name`,
-  sum(payment.amount) as `Total Amount Paid`
+   concat(customer.first_name, " ", customer.last_name) as `Customer Name`,
+   sum(payment.amount) as `Total Amount Paid`
 FROM customer
 JOIN payment
 ON customer.customer_id = payment.customer_id
 GROUP BY
-	customer.customer_id
+   customer.customer_id
 ORDER BY
-	customer.last_name asc
+   customer.last_name asc
 ;
 ```
 
@@ -242,15 +242,12 @@ ORDER BY
 ```sql
 SELECT title
 FROM film
-WHERE
-	(
-	title like 'K%' OR
-  title like 'Q%'
+WHERE (
+   title like 'K%' OR
+   title like 'Q%'
     )
-
-    AND
-
-    language_id IN (
+   AND
+   language_id IN (
 		SELECT language_id
 		FROM language
 		WHERE name = 'English'
@@ -262,17 +259,17 @@ WHERE
 
 ```sql
 SELECT
-	concat(first_name, " ", last_name) as 'Actor Name'
+   concat(first_name, " ", last_name) as 'Actor Name'
 FROM actor
 WHERE actor_id IN (
-	SELECT actor_id
-  FROM film_actor
-  WHERE film_id IN (
-			SELECT film_id
+   SELECT actor_id
+   FROM film_actor
+   WHERE film_id IN (
+      SELECT film_id
       FROM film
       WHERE title = 'Alone Trip'
-        )
-	)
+      )
+   )
 ;
 ```
 
@@ -280,8 +277,8 @@ WHERE actor_id IN (
 
 ```sql
 SELECT
-	customer.first_name,
-  customer.last_name
+   customer.first_name,
+   customer.last_name
 FROM customer
 JOIN address ON customer.address_id = address.address_id
 JOIN city ON address.city_id = city.city_id
@@ -317,8 +314,8 @@ ORDER BY COUNT(title) desc
 
 ```sql
 SELECT
-	store.store_id,
-  SUM(payment.amount) as 'Total Business (USD)'
+   store.store_id,
+   SUM(payment.amount) as 'Total Business (USD)'
 FROM store
 JOIN inventory ON store.store_id = inventory.store_id
 JOIN rental ON rental.inventory_id = inventory.inventory_id
@@ -332,9 +329,9 @@ GROUP BY store_id
 
 ```sql
 SELECT
-	store.store_id,
-  city.city,
-  country.country
+   store.store_id,
+   city.city,
+   country.country
 FROM store
 JOIN address ON store.address_id = address.address_id
 JOIN city ON address.city_id = city.city_id
@@ -346,8 +343,8 @@ JOIN country ON city.country_id = country.country_id
 
 ```sql
 SELECT
-	category.name as 'Genre',
-  SUM(payment.amount) as 'Gross Revenue'
+   category.name as 'Genre',
+   SUM(payment.amount) as 'Gross Revenue'
 FROM category
 JOIN film_category ON category.category_id = film_category.category_id
 JOIN inventory ON film_category.film_id = inventory.film_id
@@ -365,8 +362,8 @@ ORDER BY SUM(payment.amount) DESC LIMIT 5
 CREATE VIEW top_five_genres AS
 
 SELECT
-	category.name as 'Genre',
-  SUM(payment.amount) as 'Gross Revenue'
+   category.name as 'Genre',
+   SUM(payment.amount) as 'Gross Revenue'
 FROM category
 JOIN film_category ON category.category_id = film_category.category_id
 JOIN inventory ON film_category.film_id = inventory.film_id
