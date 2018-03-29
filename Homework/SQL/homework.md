@@ -6,11 +6,14 @@
 USE sakila;
 ```
 
-##1a - Display the first and last names of all actors from the table actor.
+## 1a - Display the first and last names of all actors from the table actor.
+
+```sql
 SELECT
 	first_name as `First Name`,
     last_name as `Last Name`
 FROM actor;
+```
 
 ##1b - Display the first and last name of each actor in a single column in upper case letters. Name the column Actor Name.
 SELECT concat(`first_name`, " ", `last_name`) as `Full Name`
