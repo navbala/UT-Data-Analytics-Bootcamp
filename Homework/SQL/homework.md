@@ -1,7 +1,10 @@
-# - Naveen's SQL HW
+# Naveen's SQL HW
 
 ## Use the sakila db
+
+```sql
 USE sakila;
+```
 
 ##1a - Display the first and last names of all actors from the table actor.
 SELECT
