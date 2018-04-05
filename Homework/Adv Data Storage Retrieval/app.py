@@ -55,8 +55,9 @@ app = Flask(__name__)
 # Set up Flask routes
 @app.route("/")
 def welcome():
+    """List all available api routes."""
     return (
-        f"Routes:<br/>"
+        f"Available Routes:<br/>"
         f"<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"- List of prior year tobs<br/>"
@@ -118,7 +119,7 @@ def tobs():
         filter(Measurement.date > prior_year).\
         order_by(Measurement.date).all()
 
-# Create a list of dicts with `date` and `tobs` as the keys and values
+    # Create a list of dicts with `date` and `tobs` as the keys and values
     temp_list = []
     for result in temp_data:
         row = {}
@@ -145,7 +146,7 @@ def trip1(start):
     trip = list(np.ravel(trip_data))
     return jsonify(trip)
 
-# Route  - start, end
+# Route  - start/end
 @app.route("/api/v1.0/<start>/<end>")
 def trip2(start,end):
 
@@ -162,6 +163,6 @@ def trip2(start,end):
     trip = list(np.ravel(trip_data))
     return jsonify(trip)
 
-# Set the debudding for app to run
+# Set the debugging for app to run
 if __name__ == "__main__":
     app.run(debug=True)
