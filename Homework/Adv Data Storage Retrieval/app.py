@@ -144,6 +144,7 @@ def trip1(start):
         filter(Measurements.date >= start, Measurements.date <= end).all()
 
     trip = list(np.ravel(trip_data))
+
     return jsonify(trip)
 
 # Route  - start/end
@@ -160,7 +161,9 @@ def trip2(start,end):
 
     trip_data = session.query(func.min(Measurements.tobs), func.avg(Measurements.tobs), func.max(Measurements.tobs)).\
         filter(Measurements.date >= start).filter(Measurements.date <= end).all()
+
     trip = list(np.ravel(trip_data))
+
     return jsonify(trip)
 
 # Set the debugging for app to run
