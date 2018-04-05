@@ -55,12 +55,11 @@ app = Flask(__name__)
 # Set up Flask routes
 @app.route("/")
 def welcome():
-    """List all available api routes."""
     return (
-        f"Available Routes:<br/>"
+        f"Routes:<br/>"
         f"<br/>"
         f"/api/v1.0/precipitation<br/>"
-        f"- List of prior year rain totals from all stations<br/>"
+        f"- List of prior year tobs<br/>"
         f"<br/>"
         f"/api/v1.0/stations<br/>"
         f"- List of Station numbers and names<br/>"
@@ -101,25 +100,22 @@ def precipitation():
 # Route - stations
 @app.route("/api/v1.0/stations")
 def stations():
-    # Query for all stations via session
-    stations_query = session.query(Station.name, Station.station)
+    # Query for all stations
+    stations_query = session.query(Station.name, Station.station).all()
 
-    # Read SQL query into a DataFrame (for JSONification).
-    stations = pd.read_sql(stations_query.statement, stations_query.session.bind)
+    stations_list = []
+    for station in stations_query:
+        stations_list.append(station[1])
 
-    return jsonify(stations.to_dict())
-
+    return jsonify(stations_list)
 # Route - tobs
 @app.route("/api/v1.0/tobs")
 def tobs():
-    """Return a list of temperatures for prior year"""
-#    * Query for the dates and temperature observations from the last year.
-#           * Convert the query results to a Dictionary using `date` as the key and `tobs` as the value.
-#           * Return the json representation of your dictionary.
+
     last_date = session.query(Measurement.date).order_by(Measurement.date.desc()).first()
     prior_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
     temp_data = session.query(Measurement.date, Measurement.tobs).\
-        filter(Measurements.date > prior_year).\
+        filter(Measurement.date > prior_year).\
         order_by(Measurement.date).all()
 
 # Create a list of dicts with `date` and `tobs` as the keys and values
@@ -130,7 +126,7 @@ def tobs():
         row["tobs"] = temp_data[1]
         temp_list.append(row)
 
-    return jsonify(temp_totals)
+    return jsonify(temp_list)
 
 # Route - start
 @app.route("/api/v1.0/<start>")
@@ -165,3 +161,7 @@ def trip2(start,end):
         filter(Measurements.date >= start).filter(Measurements.date <= end).all()
     trip = list(np.ravel(trip_data))
     return jsonify(trip)
+
+# Set the debudding for app to run
+if __name__ == "__main__":
+    app.run(debug=True)
