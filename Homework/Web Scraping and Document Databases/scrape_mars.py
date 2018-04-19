@@ -21,6 +21,7 @@ def scrape():
     # Create dictionary to hold all of the scraped Mars data
     mars_data = {}
 
+
     # ### Latest Mars News
     # -----
     # - Scrape the NASA Mars News Site and collect the latest News Title and Paragragh Text. Assign the text to variables that you can reference later.
@@ -43,6 +44,7 @@ def scrape():
     # Store the variables in the mars data dictionary
     mars_data["news_title"] = news_title
     mars_data["summary"] = news_p
+
 
     # ## JPL Mars Space Images - Featured Image
     # -----
@@ -156,3 +158,5 @@ def scrape():
 
     # Return the mars data dictionary
     return mars_data
+
+scrape()
