@@ -6,6 +6,7 @@
 # Import Dependencies
 from splinter import Browser
 from bs4 import BeautifulSoup
+from selenium import webdriver
 import pandas as pd
 import time
 
@@ -35,11 +36,11 @@ def scrape():
     soup = BeautifulSoup(html, 'html.parser')
 
     # Examine the results, then determine element that contains sought info
-    results = soup.find_all('li', class_='slide')
+    results = soup.find('li', class_='list_text')
 
     # Set the latest title and paragraphs as varibles
-    news_title = results[0].find('div', class_ = 'content_title').text
-    news_p = results[0].find('div', class_ = 'article_teaser_body').text
+    news_title = results.find('div', class_ = 'content_title').text
+    news_p = results.find('div', class_ = 'article_teaser_body').text
 
     # Store the variables in the mars data dictionary
     mars_data["news_title"] = news_title
@@ -106,6 +107,10 @@ def scrape():
     # - Visit the Mars Facts webpage (https://space-facts.com/mars/) and use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
     # - Use Pandas to convert the data to a HTML table string.
 
+    # Visit the Mars Facts page and scrape the table data into Pandas
+    facts_url = "https://space-facts.com/mars/"
+    browser.visit(facts_url)
+
     # Use Pandas to convert the data to a HTML table string
     html_data = pd.read_html(facts_url)
     mars_facts_df = pd.DataFrame(html_data[0])
@@ -128,6 +133,9 @@ def scrape():
     # - Append the dictionary with the image url string and the hemisphere title to a list. This list will contain one dictionary for each hemisphere.
 
     # Visit the USGS Astrogeology site and scrape pictures of the 4 Mars hemispheres
+    executable_path = {'executable_path': 'C:/Users/navba/Downloads/chromedriver_win32/chromedriver.exe'}
+    browser = Browser('chrome', **executable_path, headless=False)
+
     astro_url= "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(astro_url)
 
