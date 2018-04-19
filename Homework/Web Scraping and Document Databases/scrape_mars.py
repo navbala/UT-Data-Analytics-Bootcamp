@@ -40,7 +40,7 @@ def scrape():
     news_title = results[0].find('div', class_ = 'content_title').text
     news_p = results[0].find('div', class_ = 'article_teaser_body').text
 
-    # Store the varibales in the mars data dictionary
+    # Store the variables in the mars data dictionary
     mars_data["news_title"] = news_title
     mars_data["summary"] = news_p
 
@@ -71,4 +71,88 @@ def scrape():
     # Obtain the url for the full featured image
     featured_image_url = "https://www.jpl.nasa.gov" + featured_image_url
 
-    
+    # Store the variables in the mars data dictionary
+    mars_data["featured_image_url"] = featured_image_url
+
+
+    # ## Mars Weather
+    # -----
+    # - Visit the Mars Weather twitter account (https://twitter.com/marswxreport?lang=en) and scrape the latest Mars weather tweet from the page. Save the tweet text for the weather report as a variable called mars_weather.
+
+    # URL of Mars site
+    weather_url = "https://twitter.com/marswxreport?lang=en"
+
+    # Visit browser and click the links
+    browser.visit(weather_url)
+
+    # Create BeautifulSoup object; parse with 'html.parser'
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Examine the results, then determine element that contains sought info
+    weather_results = soup.find_all('div', class_='stream')
+
+    # Set the variable for the latest tweet text
+    mars_weather = weather_results[0].find('p', class_="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text").text
+
+    # Store the variables in the mars data dictionary
+    mars_data["mars_weather"] = mars_weather
+
+
+    # ## Mars Facts
+    # -----
+    # - Visit the Mars Facts webpage (https://space-facts.com/mars/) and use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
+    # - Use Pandas to convert the data to a HTML table string.
+
+    # Use Pandas to convert the data to a HTML table string
+    html_data = pd.read_html(facts_url)
+    mars_facts_df = pd.DataFrame(html_data[0])
+    mars_facts_df.columns = ["Mars", "Data"]
+    mars_facts_df = mars_facts_df.set_index("Mars")
+
+    mars_info = mars_facts_df.to_html(classes='mars_info')
+    mars_info = mars_info.replace('\n', ' ')
+
+    # Store the variables in the mars data dictionary
+    mars_data["mars_table"] = mars_info
+
+
+
+    # ## Mars Hemispheres
+    # -----
+    # - Visit the USGS Astrogeology site (https://space-facts.com/mars/) to obtain high resolution images for each of Mar's hemispheres.
+    # - You will need to click each of the links to the hemispheres in order to find the image url to the full resolution image.
+    # - Save both the image url string for the full resolution hemipshere image, and the Hemisphere title containing the hemisphere name. Use a Python dictionary to store the data using the keys img_url and title.
+    # - Append the dictionary with the image url string and the hemisphere title to a list. This list will contain one dictionary for each hemisphere.
+
+    # Visit the USGS Astrogeology site and scrape pictures of the 4 Mars hemispheres
+    astro_url= "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
+    browser.visit(astro_url)
+
+    # Create BeautifulSoup object; parse with 'html.parser'
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # Create a list to hold image titles/urls
+    hemisphere_image_urls = []
+
+    # Loop through the 4 h3 tags (for each hemi image) and load the image title/image URL as key/value pairs in separate dictionaries
+    for i in range (4):
+        time.sleep(5)
+        images = browser.find_by_tag('h3')
+        images[i].click()
+
+        partial_url = soup.find("img", class_="wide-image")["src"]
+        img_title = soup.find("h2",class_="title").text
+        img_url = 'https://astrogeology.usgs.gov'+ partial_url
+        hemi_dict = {"title":img_title,"img_url":img_url}
+
+        hemisphere_image_urls.append(hemi_dict)
+        browser.back()
+
+    # Store the variables in the mars data dictionary
+    mars_data["hemisphere_image_urls"] = hemisphere_image_urls
+
+
+    # Return the mars data dictionary
+    return mars_data
