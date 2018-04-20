@@ -13,7 +13,7 @@ import time
 # Initialize Browser
 def init_browser():
     executable_path = {'executable_path': 'C:/Users/navba/Downloads/chromedriver_win32/chromedriver.exe'}
-    browser = Browser('chrome', **executable_path, headless=False)
+    return Browser('chrome', **executable_path, headless=False)
 
 def scrape():
     # Set browser initilization to browser variable
@@ -36,7 +36,7 @@ def scrape():
     soup = BeautifulSoup(html, 'html.parser')
 
     # Examine the results, then determine element that contains sought info
-    results = soup.find('li', class_='list_text')
+    results = soup.find('div', class_='list_text')
 
     # Set the latest title and paragraphs as varibles
     news_title = results.find('div', class_ = 'content_title').text
@@ -45,6 +45,8 @@ def scrape():
     # Store the variables in the mars data dictionary
     mars_data["news_title"] = news_title
     mars_data["summary"] = news_p
+
+    #print(mars_data)
 
 
     # ## JPL Mars Space Images - Featured Image
@@ -77,6 +79,8 @@ def scrape():
     # Store the variables in the mars data dictionary
     mars_data["featured_image_url"] = featured_image_url
 
+    #print(mars_data)
+
 
     # ## Mars Weather
     # -----
@@ -101,6 +105,8 @@ def scrape():
     # Store the variables in the mars data dictionary
     mars_data["mars_weather"] = mars_weather
 
+    #print(mars_data)
+
 
     # ## Mars Facts
     # -----
@@ -122,6 +128,8 @@ def scrape():
 
     # Store the variables in the mars data dictionary
     mars_data["mars_table"] = mars_info
+
+    #print(mars_data)
 
 
 
@@ -152,16 +160,26 @@ def scrape():
         images = browser.find_by_tag('h3')
         images[i].click()
 
+        # Create BeautifulSoup object; parse with 'html.parser'
+        html = browser.html
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # Find the image title and urls and add them to the hemi_dict
         partial_url = soup.find("img", class_="wide-image")["src"]
-        img_title = soup.find("h2",class_="title").text
+        img_title = soup.find("h2", class_="title").text
         img_url = 'https://astrogeology.usgs.gov'+ partial_url
         hemi_dict = {"title":img_title,"img_url":img_url}
 
+        # Append the urls to the hemi image urls list
         hemisphere_image_urls.append(hemi_dict)
+
+        # Make the browser return to original page to select the next hemisphere
         browser.back()
 
     # Store the variables in the mars data dictionary
     mars_data["hemisphere_image_urls"] = hemisphere_image_urls
+
+    #print(mars_data)
 
 
     # Return the mars data dictionary
