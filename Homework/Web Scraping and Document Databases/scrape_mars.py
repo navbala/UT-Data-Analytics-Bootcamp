@@ -39,14 +39,12 @@ def scrape():
     results = soup.find('div', class_='list_text')
 
     # Set the latest title and paragraphs as varibles
-    news_title = results.find('div', class_ = 'content_title').text
-    news_p = results.find('div', class_ = 'article_teaser_body').text
+    news_title = results.find('div', class_='content_title').text
+    news_p = results.find('div', class_='article_teaser_body').text
 
     # Store the variables in the mars data dictionary
     mars_data["news_title"] = news_title
     mars_data["summary"] = news_p
-
-    #print(mars_data)
 
 
     # ## JPL Mars Space Images - Featured Image
@@ -79,8 +77,6 @@ def scrape():
     # Store the variables in the mars data dictionary
     mars_data["featured_image_url"] = featured_image_url
 
-    #print(mars_data)
-
 
     # ## Mars Weather
     # -----
@@ -105,8 +101,6 @@ def scrape():
     # Store the variables in the mars data dictionary
     mars_data["mars_weather"] = mars_weather
 
-    #print(mars_data)
-
 
     # ## Mars Facts
     # -----
@@ -128,9 +122,6 @@ def scrape():
 
     # Store the variables in the mars data dictionary
     mars_data["mars_table"] = mars_info
-
-    #print(mars_data)
-
 
 
     # ## Mars Hemispheres
@@ -178,9 +169,6 @@ def scrape():
 
     # Store the variables in the mars data dictionary
     mars_data["hemisphere_image_urls"] = hemisphere_image_urls
-
-    #print(mars_data)
-
 
     # Return the mars data dictionary
     return mars_data
