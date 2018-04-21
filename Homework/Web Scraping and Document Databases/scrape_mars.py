@@ -97,10 +97,10 @@ def scrape():
     soup = BeautifulSoup(html, 'html.parser')
 
     # Examine the results, then determine element that contains sought info
-    weather_results = soup.find_all('div', class_='stream')
+    weather_results = soup.find('div', class_='stream')
 
     # Set the variable for the latest tweet text
-    mars_weather = weather_results[0].find('p', class_="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text").text
+    mars_weather = weather_results.find('p', class_="TweetTextSize TweetTextSize--normal js-tweet-text tweet-text").text
 
     # Store the variables in the mars data dictionary
     mars_data["mars_weather"] = mars_weather
