@@ -184,5 +184,3 @@ def scrape():
 
     # Return the mars data dictionary
     return mars_data
-
-scrape()
