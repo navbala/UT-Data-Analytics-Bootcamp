@@ -15,11 +15,14 @@ var filteredData = dataSet;
 
 // renderTable renders the filtered data to the tbody
 function renderTable() {
+  var x = 0;
   $tbody.innerHTML = "";
   for (var i = 0; i < filteredData.length; i++) {
     // Get get the current sighting object and its fields
     var sighting = filteredData[i];
     var fields = Object.keys(sighting);
+
+    x += 1;
     // Create a new row in the tbody, set the index to be i + startingIndex
     var $row = $tbody.insertRow(i);
     for (var j = 0; j < fields.length; j++) {
@@ -29,6 +32,7 @@ function renderTable() {
       $cell.innerText = sighting[field];
     }
   }
+  console.log("Count: " + x)
 }
 
 function handleSearchButtonClick() {
