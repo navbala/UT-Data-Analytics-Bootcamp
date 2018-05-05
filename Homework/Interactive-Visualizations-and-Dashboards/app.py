@@ -35,13 +35,13 @@ session = Session(engine)
 @app.route("/")
 def index():
 
-    # sample_list_v = names()
-    # print(sample_list_v)
-    #
+    sample_list_v = names()
+    print(sample_list_v)
+
     return render_template("index.html")
 
 # list of sample names
-@app.route("/names", methods=['POST','GET'])
+@app.route("/names")
 def names():
 
     samples_cols_list = Samples.__table__.columns.keys()
@@ -49,7 +49,7 @@ def names():
     return jsonify(sample_list)
 
 # list of otu descriptions
-@app.route("/otu", methods=['POST','GET'])
+@app.route("/otu")
 def otu():
 
     otu_desc = session.query(OTU.lowest_taxonomic_unit_found).all()
@@ -57,7 +57,7 @@ def otu():
     return jsonify(otu_descriptions)
 
 # metadata for a specific sample
-@app.route('/metadata/<sample>', methods=['POST','GET'])
+@app.route('/metadata/<sample>')
 def metadata(sample):
 
     results = session.query(SamplesMetadata).filter(SamplesMetadata.SAMPLEID == sample[3:]).all()
@@ -69,7 +69,7 @@ def metadata(sample):
     return jsonify(dict1)
 
 # washing frequency for a specific sample
-@app.route('/wfreq/<sample>', methods=['POST','GET'])
+@app.route('/wfreq/<sample>')
 def wfreq(sample):
 
     results = session.query(SamplesMetadata.WFREQ).filter(SamplesMetadata.SAMPLEID == sample[3:]).all()
@@ -78,7 +78,7 @@ def wfreq(sample):
 
 # otu_id's and corresponding sample count in descending order
 # for a specific sample
-@app.route('/samples/<sample>', methods=['POST','GET'])
+@app.route('/samples/<sample>')
 def samples(sample):
 
     results = session.query(Samples.otu_id,getattr(Samples, sample)).order_by(getattr(Samples, sample).desc()).all()
@@ -98,6 +98,13 @@ def samples(sample):
 
     return jsonify(list3)
 
+# Allow Access to control headers
+from flask_cors import CORS
+
+CORS(app)
+
+if __name__ == '__main__':
+    app.run()
 
 # Initiate the Flask app
 if __name__ == "__main__":
