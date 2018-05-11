@@ -21,11 +21,13 @@ var svg = d3
 var chart = svg.append('g');
 
 // Append a div to the body to create tooltips, assign it a class
-d3.select(".chart").append("div").attr("class", "tooltip").style("opacity", 0);
+d3.select(".iframeContainer").append("div").attr("class", "tooltip").style("opacity", 0);
 
 // Retrieve data from CSV file and execute everything below
-d3.csv("data/data.csv", function(err, healthData) {
-    if(err) throw err;
+d3.csv("./data/data.csv", function(error, healthData) {
+    if(error) {
+      console.log(error);
+    };
 
     healthData.forEach(function(data) {
         data.poverty = +data.poverty;
@@ -97,11 +99,11 @@ d3.csv("data/data.csv", function(err, healthData) {
         .attr("fill", "lightblue")
         // display tooltip on click
         .on("mouseenter", function(data) {
-            toolTip.show(data);
+            // toolTip.show(data);
         })
         // hide tooltip on mouseout
         .on("mouseout", function(data, index) {
-            toolTip.hide(data);
+            // toolTip.hide(data);
         });
 
     // Appending a label to each data point
