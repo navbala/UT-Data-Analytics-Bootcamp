@@ -24,7 +24,7 @@ var chart = svg.append('g');
 d3.select(".chart").append("div").attr("class", "tooltip").style("opacity", 0);
 
 // Retrieve data from CSV file and execute everything below
-d3.csv("data.csv", function(error, healthData) {
+d3.csv("data/data.csv", function(error, healthData) {
     if(error) {
       console.log(error);
     };
