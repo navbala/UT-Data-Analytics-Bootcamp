@@ -21,10 +21,10 @@ var svg = d3
 var chart = svg.append('g');
 
 // Append a div to the body to create tooltips, assign it a class
-d3.select(".iframeContainer").append("div").attr("class", "tooltip").style("opacity", 0);
+d3.select(".chart").append("div").attr("class", "tooltip").style("opacity", 0);
 
 // Retrieve data from CSV file and execute everything below
-d3.csv("./data/data.csv", function(error, healthData) {
+d3.csv("data.csv", function(error, healthData) {
     if(error) {
       console.log(error);
     };
@@ -97,6 +97,7 @@ d3.csv("./data/data.csv", function(error, healthData) {
         })
         .attr("r", "15")
         .attr("fill", "lightblue")
+
         // display tooltip on click
         .on("mouseenter", function(data) {
             // toolTip.show(data);
